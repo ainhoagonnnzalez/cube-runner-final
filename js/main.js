@@ -1,110 +1,360 @@
-//* GLOBAL DOM ELEMENTS
-const startScreenNode = document.querySelector("#start-screen")
-const gameScreenNode = document.querySelector("#game-screen")
-const gameOverScreenNode = document.querySelector("#game-over-screen")
-const startBtnNode = document.querySelector("#start-btn")
-const gameBoxNode = document.querySelector("#game-box")
+/* =========================
+   DOM ELEMENTS
+========================= */
 
-//* GLOBAL GAME VARIABLES
-let playerObj = null; // hacemos esto para poder acceder a Player desde cualquier sitio, si esta dentro de una funcion, solamente podemos usarlo dentro de esa funcion
+const startScreenNode = document.querySelector("#start-screen");
+const gameScreenNode = document.querySelector("#game-screen");
+const gameOverScreenNode = document.querySelector("#game-over-screen");
 
-let enemyesArray = []; // para poner todos los enemigos
+const startBtnNode = document.querySelector("#start-btn");
+const restartBtnNode = document.querySelector("#restart-btn");
 
-let mainIntervalId = null
-let enemyIntervalId = null
-//* GLOBAL GAME FUNCTIONS
-function gameStart(){
-    // 1. changing the screens
-    startScreenNode.style.display = "none"
-    gameScreenNode.style.display = "flex"
+const gameBoxNode = document.querySelector("#game-box");
 
-    // 2. adding the inicial elements of the game
-    addPlayer();
-    addEnemy();
-    
+const scoreNode = document.querySelector("#score");
+const bestScoreNode = document.querySelector("#best-score");
 
-    // 3. start the main game interval
-    mainIntervalId = setInterval(gameLoop, Math.round(1000/60))    // 60 times per second
-
-    // 4. starting other intervals
-    enemyIntervalId = setInterval(addEnemy, 2000)
-}
-
-function addPlayer(){
-    playerObj = new Player()
-    console.log(playerObj)
-}
-
-function addEnemy(){
-    let randomPosY = Math.floor(Math.random()*350)
-    let randomWidth = Math.floor(Math.random()*75) + 25 // 25 -100
-    let randomHeight = Math.floor(Math.random()*75) + 25
+const finalScoreNode = document.querySelector("#final-score");
+const finalBestScoreNode = document.querySelector("#final-best-score");
 
 
+/* =========================
+   GAME VARIABLES
+========================= */
 
-    let newEnemy = new Cube(randomPosY, randomHeight, randomWidth)
-    enemyesArray.push(newEnemy)
-    console.log(enemyesArray.length)
-}
+let playerObj = null;
 
-function gameLoop(){
-    enemyesArray.forEach((enemy)=>{
-        enemy.automaticMovement()
-    })
-    checkEnemyDespawn()
-    checkCollisionPlayerEnemy()
-}
+let enemyesArray = [];
 
-function checkEnemyDespawn(){
-    if(enemyesArray[0] && enemyesArray[0].x < -100){
-        // 2 actions need to happen when removing an element from the game
-        enemyesArray[0].node.remove() // remove from the DOM
-        enemyesArray.shift()// remove it from JS
-    }
-}
+let mainIntervalId = null;
+let enemyIntervalId = null;
+let speedIntervalId = null;
+let scoreIntervalId = null;
 
-function checkCollision(elment1, element2) {
-    return (
-      elment1.x < element2.x + element2.width &&
-      elment1.x + elment1.width > element2.x &&
-      elment1.y < element2.y + element2.height &&
-      elment1.y + elment1.height > element2.y
+let gameSpeed = 3;
+
+let enemySpawnTime = 2000;
+
+let score = 0;
+
+let bestScore = Number(
+  localStorage.getItem("pacmanRunnerBest")
+) || 0;
+
+bestScoreNode.innerText = bestScore;
+
+
+/* =========================
+   GAME START
+========================= */
+
+function gameStart() {
+
+  // Stop previous intervals
+  clearInterval(mainIntervalId);
+  clearInterval(enemyIntervalId);
+  clearInterval(speedIntervalId);
+  clearInterval(scoreIntervalId);
+
+
+  // Change screens
+  startScreenNode.style.display = "none";
+  gameOverScreenNode.style.display = "none";
+  gameScreenNode.style.display = "flex";
+
+
+  // Reset variables
+  playerObj = null;
+
+  enemyesArray = [];
+
+  gameSpeed = 3;
+
+  enemySpawnTime = 2000;
+
+  score = 0;
+
+  scoreNode.innerText = score;
+
+
+  // Clear game board
+  gameBoxNode.innerHTML = "";
+
+
+  // Create elements
+  addPlayer();
+
+  addEnemy();
+
+
+  // Main game loop
+  mainIntervalId = setInterval(
+    gameLoop,
+    Math.round(1000 / 60)
+  );
+
+
+  // Enemy spawning
+  startEnemySpawner();
+
+
+  // Increase difficulty
+  speedIntervalId = setInterval(() => {
+
+    gameSpeed += 0.5;
+
+    // Increase existing enemies' speed too
+    enemyesArray.forEach((enemy) => {
+      enemy.speed = gameSpeed;
+    });
+
+
+    // Make enemies appear more often
+    enemySpawnTime = Math.max(
+      700,
+      enemySpawnTime - 150
     );
-}
 
-function checkCollisionPlayerEnemy(){
-    enemyesArray.forEach((enemy)=>{
-        if(checkCollision(enemy, playerObj)){
-            console.log("Colision detected, GAME OVER")
-            gameOver()
-        }
-    })
-}
+    startEnemySpawner();
 
-function gameOver(){
-    //STOP ALL INTERVALS
-    clearInterval(mainIntervalId);
-    clearInterval(enemyIntervalId)
+  }, 5000);
 
-    // change screens
-    gameScreenNode.style.display = "none"
-    gameOverScreenNode.style.display = "flex"
+
+  // Score timer
+  scoreIntervalId = setInterval(() => {
+
+    score += 10;
+
+    scoreNode.innerText = score;
+
+  }, 1000);
 
 }
-//* EVENT LISTENERS
 
-startBtnNode.addEventListener("click", gameStart)
 
-window.addEventListener("keydown", (event)=>{
-    if(event.code === "ArrowUp"){
-        // move player up
-        playerObj.moveUp();
+/* =========================
+   CREATE PLAYER
+========================= */
+
+function addPlayer() {
+
+  playerObj = new Player();
+
+}
+
+
+/* =========================
+   CREATE ENEMY
+========================= */
+
+function addEnemy() {
+
+  const randomWidth = 45
+
+  const randomHeight = 45
+
+  const maxY = gameBoxNode.clientHeight - randomHeight;
+
+  const randomPosY = Math.floor(
+    Math.random() * (maxY + 1)
+  );
+
+  const newEnemy = new Cube(
+    randomPosY,
+    randomWidth,
+    randomHeight
+  );
+
+  enemyesArray.push(newEnemy);
+
+}
+
+
+/* =========================
+   ENEMY SPAWNER
+========================= */
+
+function startEnemySpawner() {
+
+  clearInterval(enemyIntervalId);
+
+  enemyIntervalId = setInterval(
+    addEnemy,
+    enemySpawnTime
+  );
+
+}
+
+
+/* =========================
+   GAME LOOP
+========================= */
+
+function gameLoop() {
+
+  enemyesArray.forEach((enemy) => {
+
+    enemy.automaticMovement();
+
+  });
+
+  checkEnemyDespawn();
+
+  checkCollisionPlayerEnemy();
+
+}
+
+
+/* =========================
+   REMOVE ENEMIES
+========================= */
+
+function checkEnemyDespawn() {
+
+  enemyesArray = enemyesArray.filter((enemy) => {
+
+    if (enemy.x + enemy.width < 0) {
+
+      enemy.node.remove();
+
+      return false;
 
     }
-    else if(event.code === "ArrowDown"){
-        // move player down
-        playerObj.moveDown();
+
+    return true;
+
+  });
+
+}
+
+
+/* =========================
+   COLLISION DETECTION
+========================= */
+
+function checkCollision(element1, element2) {
+
+  return (
+
+    element1.x < element2.x + element2.width &&
+
+    element1.x + element1.width > element2.x &&
+
+    element1.y < element2.y + element2.height &&
+
+    element1.y + element1.height > element2.y
+
+  );
+
+}
+
+
+/* =========================
+   CHECK COLLISIONS
+========================= */
+
+function checkCollisionPlayerEnemy() {
+
+  for (const enemy of enemyesArray) {
+
+    if (checkCollision(enemy, playerObj)) {
+
+      gameOver();
+
+      return;
+
     }
-})
+
+  }
+
+}
 
 
+/* =========================
+   GAME OVER
+========================= */
+
+function gameOver() {
+
+  // Stop intervals
+  clearInterval(mainIntervalId);
+  clearInterval(enemyIntervalId);
+  clearInterval(speedIntervalId);
+  clearInterval(scoreIntervalId);
+
+
+  // Update best score
+  if (score > bestScore) {
+
+    bestScore = score;
+
+    localStorage.setItem(
+      "pacmanRunnerBest",
+      bestScore
+    );
+
+  }
+
+
+  // Update scores
+  finalScoreNode.innerText = score;
+
+  finalBestScoreNode.innerText = bestScore;
+
+  bestScoreNode.innerText = bestScore;
+
+
+  // Change screens
+  gameScreenNode.style.display = "none";
+
+  gameOverScreenNode.style.display = "flex";
+
+}
+
+
+/* =========================
+   RESTART
+========================= */
+
+function restartGame() {
+
+  gameStart();
+
+}
+
+
+/* =========================
+   EVENT LISTENERS
+========================= */
+
+startBtnNode.addEventListener("click", gameStart);
+
+restartBtnNode.addEventListener("click", restartGame);
+
+
+window.addEventListener("keydown", (event) => {
+
+  if (
+    !playerObj ||
+    gameScreenNode.style.display !== "flex"
+  ) {
+    return;
+  }
+
+  if (event.code === "ArrowUp") {
+
+    event.preventDefault();
+
+    playerObj.moveUp();
+
+  }
+
+  else if (event.code === "ArrowDown") {
+
+    event.preventDefault();
+
+    playerObj.moveDown();
+
+  }
+
+});

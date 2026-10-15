@@ -1,31 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cube Runner</title>
+
+  <title>Pac-Man Runner</title>
+
   <link rel="stylesheet" href="./styles/style.css">
 </head>
+
 <body>
 
+  <!-- START SCREEN -->
   <div id="start-screen" class="container">
-    <h1>Cube Runner</h1>
-    <button id="start-btn">Start Game</button>
+
+    <p class="arcade-label">★ CLASSIC ARCADE ★</p>
+
+    <h1>
+      PAC-MAN
+      <span>RUNNER</span>
+    </h1>
+
+    <div class="start-characters">
+
+      <img src="./images/pacman.png" alt="Pac-Man">
+
+      <img src="./images/fantasma_rojo.png" alt="Red ghost">
+
+      <img src="./images/fantasma_rosa.png" alt="Pink ghost">
+
+      <img src="./images/fantasma_azul.png" alt="Blue ghost">
+
+    </div>
+
+    <p class="subtitle">
+      DODGE THE GHOSTS!
+    </p>
+
+    <button id="start-btn">
+      ▶ START GAME
+    </button>
+
+    <p class="instructions">
+      USE ↑ AND ↓ TO MOVE
+    </p>
+
+    <p class="insert-coin">
+      INSERT COIN TO START
+    </p>
+
   </div>
 
+
+  <!-- GAME SCREEN -->
   <div id="game-screen" class="container">
+
+    <div class="game-header">
+
+      <div class="score-box">
+        <span>1UP</span>
+        <strong id="score">0</strong>
+      </div>
+
+      <div class="game-title">
+        PAC-MAN
+      </div>
+
+      <div class="score-box">
+        <span>HIGH SCORE</span>
+        <strong id="best-score">0</strong>
+      </div>
+
+    </div>
+
     <div id="game-box"></div>
+
+    <p class="game-instructions">
+      ↑ MOVE UP &nbsp;&nbsp; ↓ MOVE DOWN
+    </p>
+
   </div>
 
+
+  <!-- GAME OVER SCREEN -->
   <div id="game-over-screen" class="container">
-    <h2>Game Over</h2>
-    <p>The cubes caught you.</p>
+
+    <h2>GAME OVER</h2>
+
+    <div class="game-over-ghost">
+      <img src="./images/fantasma_rojo.png" alt="Red ghost">
+    </div>
+
+    <p>THE GHOSTS GOT YOU!</p>
+
+    <div class="final-score-box">
+
+      <span>YOUR SCORE</span>
+
+      <strong id="final-score">0</strong>
+
+    </div>
+
+    <p class="best-score-text">
+      HIGH SCORE: <span id="final-best-score">0</span>
+    </p>
+
+    <button id="restart-btn">
+      ↻ PLAY AGAIN
+    </button>
+
   </div>
 
+
+  <!-- JAVASCRIPT -->
   <script src="./js/main.js"></script>
   <script src="./js/player.js"></script>
   <script src="./js/cube.js"></script>
 
 </body>
+
 </html>

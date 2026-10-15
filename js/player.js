@@ -1,51 +1,67 @@
 class Player {
 
   constructor() {
-    //* all player properties will go here
-    this.node = document.createElement("div")
-    gameBoxNode.append(this.node) // as soon as the obj from this class is created, the node will be inserted into the game box
 
-    this.node.className = "player" // en consola podemos ver que se ha añadido un div con la clase "player"
+    // Create Pac-Man element
+    this.node = document.createElement("div");
+
+    gameBoxNode.append(this.node);
+
+    this.node.className = "player";
 
 
-    // position and dimensions
+    // Position
     this.x = 70;
-    this.y = 150;
-    this.width = 50;
-    this.height = 50;
+    this.y = 175;
 
-    // adding the initial styles
-    this.node.style.width = `${this.width}px`
-    this.node.style.height = `${this.height}px`
-    this.node.style.backgroundColor = "white"
-    this.node.style.borderRadius = "5px"
-    this.node.style.border = "solid black 2px"
 
-    this.node.style.position = "absolute"
-    this.node.style.top = `${this.y}px`
-    this.node.style.left = `${this.x}px`
+    // Dimensions
+    this.width = 45;
+    this.height = 45;
 
-    this.speed = 20
+
+    // Apply styles
+    this.node.style.width = `${this.width}px`;
+    this.node.style.height = `${this.height}px`;
+
+    this.node.style.left = `${this.x}px`;
+    this.node.style.top = `${this.y}px`;
+
+
+    // Movement speed
+    this.speed = 20;
 
   }
 
-  //* all player methods will go here
-  //creamos metodos
-  moveUp(){
-    if(this.y < 0){
-      return // stop the function
+
+  moveUp() {
+
+    if (this.y <= 0) {
+      return;
     }
-    this.y -= this.speed
-    this.node.style.top = `${this.y}px`
+
+    this.y = Math.max(0, this.y - this.speed);
+
+    this.node.style.top = `${this.y}px`;
+
   }
 
-  moveDown(){
-    if(this.y > 330){
-      return
+
+  moveDown() {
+
+    const gameHeight = gameBoxNode.clientHeight;
+
+    if (this.y + this.height >= gameHeight) {
+      return;
     }
-    this.y += this.speed
-    this.node.style.top = `${this.y}px`
-  }
 
+    this.y = Math.min(
+      gameHeight - this.height,
+      this.y + this.speed
+    );
+
+    this.node.style.top = `${this.y}px`;
+
+  }
 
 }

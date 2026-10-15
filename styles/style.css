@@ -1,52 +1,447 @@
-body {
+/* =========================
+   GENERAL
+========================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+* {
   margin: 0;
-  background-color: #0f172a;
-  color: #f8fafc;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-button {
-  background-color: #38bdf8;
-  color: white;
-  padding: 14px 24px;
-  font-size: 18px;
-  margin-top: 16px;
-  border: none;
-  border-radius: 999px;
-  cursor: pointer;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+body {
+  min-height: 100vh;
+
+  background-color: #050505;
+
+  color: #f5f5f5;
+
+  font-family: 'Press Start 2P', monospace;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-button:hover {
-  background-color: #0ea5e9;
-}
+
+/* =========================
+   CONTAINERS
+========================= */
 
 .container {
   display: flex;
   flex-direction: column;
+
   justify-content: center;
   align-items: center;
-  margin: 50px;
-  padding: 20px;
+
+  text-align: center;
+
+  width: 100%;
+
+  padding: 30px 20px;
 }
 
+
+/* =========================
+   START SCREEN
+========================= */
+
+#start-screen {
+  min-height: 100vh;
+}
+
+.arcade-label {
+  color: #f4c542;
+
+  font-size: 10px;
+
+  letter-spacing: 3px;
+
+  margin-bottom: 35px;
+}
+
+h1 {
+  font-size: clamp(25px, 6vw, 48px);
+
+  line-height: 1.7;
+
+  color: #ffdb38;
+}
+
+h1 span {
+  display: block;
+
+  color: #f2f2f2;
+}
+
+.subtitle {
+  color: #f4c542;
+
+  font-size: 12px;
+
+  margin-top: 35px;
+}
+
+.start-characters {
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+  gap: 20px;
+
+  margin-top: 40px;
+}
+
+.start-characters img {
+  width: 55px;
+  height: 55px;
+
+  object-fit: contain;
+
+  image-rendering: pixelated;
+}
+
+.instructions {
+  margin-top: 30px;
+
+  color: #a9a9a9;
+
+  font-size: 10px;
+}
+
+.insert-coin {
+  margin-top: 50px;
+
+  color: #f4c542;
+
+  font-size: 10px;
+
+  animation: blink 1s infinite;
+}
+
+
+/* =========================
+   BUTTONS
+========================= */
+
+button {
+  margin-top: 40px;
+
+  padding: 18px 30px;
+
+  background-color: transparent;
+
+  border: 3px solid #f4c542;
+
+  color: #f4c542;
+
+  font-family: 'Press Start 2P', monospace;
+
+  font-size: 11px;
+
+  cursor: pointer;
+
+  transition: background-color 0.2s, color 0.2s;
+}
+
+button:hover {
+  background-color: #f4c542;
+
+  color: #050505;
+}
+
+
+/* =========================
+   GAME HEADER
+========================= */
+
+.game-header {
+  width: 400px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 30px;
+  padding: 0 5px;
+}
+
+.score-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 12px;
+
+  min-width: 100px;
+}
+
+.score-box span {
+  color: #ffffff;
+
+  font-size: 11px;
+  line-height: 1.8;
+
+  white-space: nowrap;
+}
+
+.score-box strong {
+  color: #ffdb38;
+
+  font-size: 20px;
+  line-height: 1.5;
+}
+
+.game-title {
+  color: #ffdb38;
+
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+/* =========================
+   GAME BOARD
+========================= */
+
 #game-box {
-  background: linear-gradient(180deg, #38bdf8 0%, #0f172a 100%);
   width: 400px;
   height: 400px;
 
-  position: relative; /* allows us to position inner elements (absolute) related the the game-box */
-  overflow: hidden; /* prevents elements to visually exit the game-box */
-  user-select: none; /* prevents elements inside the game-box to be highlighted. This improves the user experience for click events on the game-box */
-  
-  border: 4px solid #f8fafc;
-  border-radius: 16px;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+  position: relative;
+
+  overflow: hidden;
+
+  background-color: #000;
+
+  border: 5px solid #253e9f;
+
+  border-radius: 12px;
+
+  box-shadow: inset 0 0 0 3px #101b52;
+
+  user-select: none;
+}
+
+
+/* PAC-MAN DOTS */
+
+#game-box::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  background-image: radial-gradient(
+    circle,
+    #f4c542 2px,
+    transparent 3px
+  );
+
+  background-size: 35px 35px;
+
+  opacity: 0.65;
+
+  pointer-events: none;
+}
+
+
+/* DECORATIVE MAZE LINES */
+
+#game-box::after {
+  content: "";
+
+  position: absolute;
+
+  inset: 15px;
+
+  border: 3px solid #253e9f;
+
+  border-radius: 10px;
+
+  pointer-events: none;
 }
 
 #game-box * {
-  pointer-events: none; /* prevents elements in the game-box to be dragged. This improves the user experience for click events on the game-box  */
+  pointer-events: none;
 }
 
-#game-screen, #game-over-screen{
+.game-instructions {
+  margin-top: 25px;
+
+  color: #a9a9a9;
+
+  font-size: 9px;
+}
+
+
+/* =========================
+   PLAYER
+========================= */
+
+.player {
+  position: absolute;
+
+  background-image: url("../images/pacman.png");
+
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  image-rendering: pixelated;
+
+  z-index: 5;
+
+  animation: pacmanBounce 0.4s ease-in-out infinite alternate;
+}
+
+
+/* =========================
+   ENEMIES
+========================= */
+
+.enemy {
+  position: absolute;
+
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  image-rendering: pixelated;
+
+  z-index: 4;
+
+  animation: ghostFloat 0.6s ease-in-out infinite alternate;
+}
+
+
+/* =========================
+   GAME OVER
+========================= */
+
+#game-over-screen {
   display: none;
+
+  min-height: 100vh;
+}
+
+#game-over-screen h2 {
+  color: #e94b4b;
+
+  font-size: 35px;
+
+  line-height: 1.5;
+}
+
+.game-over-ghost {
+  margin-top: 40px;
+}
+
+.game-over-ghost img {
+  width: 80px;
+
+  image-rendering: pixelated;
+}
+
+#game-over-screen p {
+  margin-top: 30px;
+
+  color: #f2f2f2;
+
+  font-size: 10px;
+
+  line-height: 2;
+}
+
+.final-score-box {
+  margin-top: 40px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 20px;
+}
+
+.final-score-box span {
+  color: #f4c542;
+
+  font-size: 12px;
+}
+
+.final-score-box strong {
+  color: white;
+
+  font-size: 35px;
+}
+
+.best-score-text span {
+  color: #f4c542;
+}
+
+
+/* =========================
+   ANIMATIONS
+========================= */
+
+@keyframes blink {
+  0%, 50% {
+    opacity: 1;
+  }
+
+  51%, 100% {
+    opacity: 0;
+  }
+}
+
+@keyframes ghostFloat {
+  from {
+    transform: translateY(-3px);
+  }
+
+  to {
+    transform: translateY(3px);
+  }
+}
+
+@keyframes pacmanBounce {
+  from {
+    transform: translateY(-2px);
+  }
+
+  to {
+    transform: translateY(2px);
+  }
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 480px) {
+  .game-header {
+    width: 320px;
+  }
+
+  #game-box {
+    transform: scale(0.8);
+
+    margin: -35px 0;
+  }
+
+  .start-characters {
+    gap: 10px;
+  }
+
+  .start-characters img {
+    width: 45px;
+    height: 45px;
+  }
+
+  #game-over-screen h2 {
+    font-size: 25px;
+  }
 }

@@ -1,37 +1,65 @@
 class Cube {
 
   constructor(posY, width, height) {
-    //* all enemy properties will go here
-    this.node = document.createElement("div")
-    gameBoxNode.append(this.node) 
 
-    this.node.className ="enemy"
+    // Create ghost element
+    this.node = document.createElement("div");
 
-    // position and dimensions
-    this.x = 350;
+    gameBoxNode.append(this.node);
+
+    this.node.className = "enemy";
+
+
+    // Ghost images
+    const ghostImages = [
+      "./images/fantasma_rojo.png",
+      "./images/fantasma_rosa.png",
+      "./images/fantasma_azul.png",
+      "./images/fantasma_naranja.png"
+    ];
+
+
+    // Choose random ghost
+    const randomIndex = Math.floor(
+      Math.random() * ghostImages.length
+    );
+
+    const randomGhost = ghostImages[randomIndex];
+
+
+    // Apply ghost image
+    this.node.style.backgroundImage = `url("${randomGhost}")`;
+
+
+    // Position
+    this.x = gameBoxNode.clientWidth;
     this.y = posY;
+
+
+    // Dimensions
     this.width = width;
     this.height = height;
 
-    // adding the initial styles
-    this.node.style.width = `${this.width}px`
-    this.node.style.height = `${this.height}px`
-    this.node.style.backgroundColor = "red"
-    this.node.style.borderRadius = "5px"
-    this.node.style.border = "solid white 2px"
 
-    this.node.style.position = "absolute"
-    this.node.style.top = `${this.y}px`
-    this.node.style.left = `${this.x}px`
+    // Apply styles
+    this.node.style.width = `${this.width}px`;
+    this.node.style.height = `${this.height}px`;
 
-    this.speed = 3
+    this.node.style.left = `${this.x}px`;
+    this.node.style.top = `${this.y}px`;
+
+
+    // Speed
+    this.speed = gameSpeed;
+
   }
 
-  //* all enemy methods will go here
 
-  automaticMovement(){
-    this.x -= this.speed
-    this.node.style.left = `${this.x}px`
+  automaticMovement() {
+
+    this.x -= this.speed;
+
+    this.node.style.left = `${this.x}px`;
 
   }
 
