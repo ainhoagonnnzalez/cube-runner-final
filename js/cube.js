@@ -1,7 +1,5 @@
 class Cube {
-
   constructor(posY, width, height) {
-
     // Create enemy
     this.node = document.createElement("div");
 
@@ -14,24 +12,25 @@ class Cube {
       "./images/fantasma_rojo.png",
       "./images/fantasma_rosa.png",
       "./images/fantasma_azul.png",
-      "./images/fantasma_naranja.png"
     ];
 
     // Select random ghost
-    const randomIndex = Math.floor(
-      Math.random() * ghostImages.length
-    );
+    const randomIndex = Math.floor(Math.random() * ghostImages.length);
 
-    this.node.style.backgroundImage =
-      `url("${ghostImages[randomIndex]}")`;
+    this.node.style.backgroundImage = `url("${ghostImages[randomIndex]}")`;
+    // Make orange ghost bigger
+
+    if (randomIndex === 3) {
+      this.node.style.backgroundSize = "140%";
+    }
 
     // Enemy position
     this.x = gameBoxNode.clientWidth;
     this.y = posY;
 
     // Enemy size
-    this.width = width;
-    this.height = height;
+    this.width = 45;
+    this.height = 45;
 
     // Enemy speed
     this.speed = gameSpeed;
@@ -42,16 +41,12 @@ class Cube {
 
     this.node.style.left = `${this.x}px`;
     this.node.style.top = `${this.y}px`;
-
   }
 
   // Move enemy
   automaticMovement() {
-
     this.x -= this.speed;
 
     this.node.style.left = `${this.x}px`;
-
   }
-
 }
