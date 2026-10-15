@@ -1,7 +1,3 @@
-/* =========================
-   GENERAL
-========================= */
-
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
 * {
@@ -12,151 +8,111 @@
 
 body {
   min-height: 100vh;
-
   background-color: #050505;
-
-  color: #f5f5f5;
-
-  font-family: 'Press Start 2P', monospace;
+  color: white;
+  font-family: "Press Start 2P", monospace;
 
   display: flex;
   justify-content: center;
   align-items: center;
+
+  overflow-x: hidden;
 }
 
-
-/* =========================
-   CONTAINERS
-========================= */
-
 .container {
+  width: 100%;
+  max-width: 700px;
+
   display: flex;
   flex-direction: column;
-
   justify-content: center;
   align-items: center;
 
   text-align: center;
-
-  width: 100%;
-
   padding: 30px 20px;
 }
 
-
-/* =========================
-   START SCREEN
-========================= */
-
-#start-screen {
-  min-height: 100vh;
+#game-screen,
+#game-over-screen {
+  display: none;
 }
 
+/* START SCREEN */
+
 .arcade-label {
-  color: #f4c542;
-
+  color: #ffdb38;
   font-size: 10px;
-
-  letter-spacing: 3px;
-
+  letter-spacing: 4px;
   margin-bottom: 35px;
 }
 
 h1 {
-  font-size: clamp(25px, 6vw, 48px);
-
-  line-height: 1.7;
-
   color: #ffdb38;
+  font-size: 35px;
+  line-height: 1.8;
+  margin-bottom: 35px;
 }
 
 h1 span {
   display: block;
-
-  color: #f2f2f2;
-}
-
-.subtitle {
-  color: #f4c542;
-
-  font-size: 12px;
-
-  margin-top: 35px;
+  color: white;
 }
 
 .start-characters {
   display: flex;
-
   justify-content: center;
   align-items: center;
-
   gap: 20px;
-
-  margin-top: 40px;
+  margin-bottom: 35px;
 }
 
 .start-characters img {
   width: 55px;
   height: 55px;
-
   object-fit: contain;
-
   image-rendering: pixelated;
 }
 
-.instructions {
-  margin-top: 30px;
-
-  color: #a9a9a9;
-
-  font-size: 10px;
+.subtitle {
+  color: #ffdb38;
+  font-size: 13px;
+  margin-bottom: 35px;
 }
-
-.insert-coin {
-  margin-top: 50px;
-
-  color: #f4c542;
-
-  font-size: 10px;
-
-  animation: blink 1s infinite;
-}
-
-
-/* =========================
-   BUTTONS
-========================= */
 
 button {
-  margin-top: 40px;
+  background: black;
+  color: #ffdb38;
 
-  padding: 18px 30px;
+  border: 3px solid #ffdb38;
 
-  background-color: transparent;
+  padding: 20px 30px;
 
-  border: 3px solid #f4c542;
-
-  color: #f4c542;
-
-  font-family: 'Press Start 2P', monospace;
-
-  font-size: 11px;
+  font-family: "Press Start 2P", monospace;
+  font-size: 12px;
 
   cursor: pointer;
-
-  transition: background-color 0.2s, color 0.2s;
+  transition: 0.2s;
 }
 
 button:hover {
-  background-color: #f4c542;
-
-  color: #050505;
+  background: #ffdb38;
+  color: black;
 }
 
+.instructions {
+  color: #aaaaaa;
+  font-size: 9px;
+  margin-top: 35px;
+}
 
-/* =========================
-   GAME HEADER
-========================= */
+.insert-coin {
+  color: #ffdb38;
+  font-size: 10px;
+  margin-top: 35px;
+  animation: blink 1s infinite;
+}
+
+/* GAME SCREEN */
 
 .game-header {
   width: 400px;
@@ -173,218 +129,158 @@ button:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
-
   gap: 12px;
 
   min-width: 100px;
 }
 
 .score-box span {
-  color: #ffffff;
-
+  color: white;
   font-size: 11px;
-  line-height: 1.8;
-
   white-space: nowrap;
 }
 
 .score-box strong {
   color: #ffdb38;
-
   font-size: 20px;
-  line-height: 1.5;
 }
 
 .game-title {
   color: #ffdb38;
-
   font-size: 12px;
-  white-space: nowrap;
 }
-
-/* =========================
-   GAME BOARD
-========================= */
 
 #game-box {
   width: 400px;
   height: 400px;
 
   position: relative;
-
   overflow: hidden;
 
-  background-color: #000;
+  background-color: black;
 
   border: 5px solid #253e9f;
+  border-radius: 15px;
 
-  border-radius: 12px;
-
-  box-shadow: inset 0 0 0 3px #101b52;
-
-  user-select: none;
+  box-shadow: 0 0 0 5px #101d56;
 }
-
-
-/* PAC-MAN DOTS */
 
 #game-box::before {
   content: "";
 
   position: absolute;
-
   inset: 0;
 
   background-image: radial-gradient(
     circle,
-    #f4c542 2px,
-    transparent 3px
+    #b58b1d 3px,
+    transparent 4px
   );
 
   background-size: 35px 35px;
 
-  opacity: 0.65;
-
+  opacity: 0.8;
   pointer-events: none;
 }
-
-
-/* DECORATIVE MAZE LINES */
 
 #game-box::after {
   content: "";
 
   position: absolute;
-
   inset: 15px;
 
-  border: 3px solid #253e9f;
-
-  border-radius: 10px;
+  border: 4px solid #253e9f;
+  border-radius: 12px;
 
   pointer-events: none;
 }
-
-#game-box * {
-  pointer-events: none;
-}
-
-.game-instructions {
-  margin-top: 25px;
-
-  color: #a9a9a9;
-
-  font-size: 9px;
-}
-
-
-/* =========================
-   PLAYER
-========================= */
 
 .player {
   position: absolute;
 
   background-image: url("../images/pacman.png");
-
   background-size: contain;
-  background-position: center;
   background-repeat: no-repeat;
+  background-position: center;
 
   image-rendering: pixelated;
 
   z-index: 5;
-
-  animation: pacmanBounce 0.4s ease-in-out infinite alternate;
 }
-
-
-/* =========================
-   ENEMIES
-========================= */
 
 .enemy {
   position: absolute;
 
   background-size: contain;
-  background-position: center;
   background-repeat: no-repeat;
+  background-position: center;
 
   image-rendering: pixelated;
 
   z-index: 4;
-
-  animation: ghostFloat 0.6s ease-in-out infinite alternate;
 }
 
-
-/* =========================
-   GAME OVER
-========================= */
-
-#game-over-screen {
-  display: none;
-
-  min-height: 100vh;
+.game-instructions {
+  color: #aaaaaa;
+  font-size: 9px;
+  margin-top: 35px;
 }
+
+/* GAME OVER SCREEN */
 
 #game-over-screen h2 {
-  color: #e94b4b;
-
+  color: #ffdb38;
   font-size: 35px;
-
-  line-height: 1.5;
+  margin-bottom: 40px;
 }
 
 .game-over-ghost {
-  margin-top: 40px;
+  margin-bottom: 35px;
 }
 
 .game-over-ghost img {
-  width: 80px;
+  width: 90px;
+  height: 90px;
 
+  object-fit: contain;
   image-rendering: pixelated;
 }
 
-#game-over-screen p {
-  margin-top: 30px;
-
-  color: #f2f2f2;
-
-  font-size: 10px;
-
+#game-over-screen > p {
+  color: white;
+  font-size: 12px;
   line-height: 2;
+  margin-bottom: 30px;
 }
 
 .final-score-box {
-  margin-top: 40px;
-
   display: flex;
   flex-direction: column;
-
   gap: 20px;
+
+  margin-bottom: 30px;
 }
 
 .final-score-box span {
-  color: #f4c542;
-
+  color: white;
   font-size: 12px;
 }
 
 .final-score-box strong {
-  color: white;
-
-  font-size: 35px;
+  color: #ffdb38;
+  font-size: 30px;
 }
 
-.best-score-text span {
-  color: #f4c542;
+.best-score-text {
+  color: #ffdb38 !important;
+  font-size: 11px !important;
 }
 
+#restart-btn {
+  margin-top: 15px;
+}
 
-/* =========================
-   ANIMATIONS
-========================= */
+/* ANIMATIONS */
 
 @keyframes blink {
   0%, 50% {
@@ -396,40 +292,15 @@ button:hover {
   }
 }
 
-@keyframes ghostFloat {
-  from {
-    transform: translateY(-3px);
-  }
-
-  to {
-    transform: translateY(3px);
-  }
-}
-
-@keyframes pacmanBounce {
-  from {
-    transform: translateY(-2px);
-  }
-
-  to {
-    transform: translateY(2px);
-  }
-}
-
-
-/* =========================
-   RESPONSIVE
-========================= */
+/* RESPONSIVE */
 
 @media (max-width: 480px) {
-  .game-header {
-    width: 320px;
+  .container {
+    padding: 20px 10px;
   }
 
-  #game-box {
-    transform: scale(0.8);
-
-    margin: -35px 0;
+  h1 {
+    font-size: 23px;
   }
 
   .start-characters {
@@ -437,67 +308,12 @@ button:hover {
   }
 
   .start-characters img {
-    width: 45px;
-    height: 45px;
-  }
-
-  #game-over-screen h2 {
-    font-size: 25px;
-  }
-}
-
-/* =========================
-   MOBILE CONTROLS
-========================= */
-
-.mobile-controls {
-  display: none;
-  gap: 35px;
-  justify-content: center;
-  margin-top: 25px;
-}
-
-.mobile-controls button {
-  width: 85px;
-  height: 65px;
-
-  margin: 0;
-  padding: 0;
-
-  background: #000;
-  border: 3px solid #f4c542;
-  border-radius: 8px;
-
-  color: #f4c542;
-
-  font-size: 24px;
-
-  touch-action: manipulation;
-}
-
-.mobile-controls button:active {
-  background: #f4c542;
-  color: #000;
-}
-
-/* =========================
-   MOBILE RESPONSIVE
-========================= */
-
-@media (max-width: 480px) {
-
-  .mobile-controls {
-    display: flex;
-  }
-
-  .game-instructions {
-    display: none;
+    width: 40px;
+    height: 40px;
   }
 
   .game-header {
-    width: 100%;
-    max-width: 400px;
-    gap: 8px;
+    width: 300px;
   }
 
   .score-box {
@@ -509,7 +325,7 @@ button:hover {
   }
 
   .score-box strong {
-    font-size: 16px;
+    font-size: 15px;
   }
 
   .game-title {
@@ -517,14 +333,11 @@ button:hover {
   }
 
   #game-box {
-    width: 400px;
-    height: 400px;
-
-    /* Mantiene las coordenadas internas del juego */
-    transform: scale(0.8);
-    transform-origin: center;
-
-    margin: -35px 0;
+    transform: scale(0.75);
+    margin: -50px 0;
   }
 
+  #game-over-screen h2 {
+    font-size: 24px;
+  }
 }

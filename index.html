@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,48 +11,30 @@
 
 <body>
 
-  <!-- START SCREEN -->
   <div id="start-screen" class="container">
 
     <p class="arcade-label">★ CLASSIC ARCADE ★</p>
 
-    <h1>
-      PAC-MAN
-      <span>RUNNER</span>
-    </h1>
+    <h1>PAC-MAN <span>RUNNER</span></h1>
 
     <div class="start-characters">
-
       <img src="./images/pacman.png" alt="Pac-Man">
-
       <img src="./images/fantasma_rojo.png" alt="Red ghost">
-
       <img src="./images/fantasma_rosa.png" alt="Pink ghost">
-
       <img src="./images/fantasma_azul.png" alt="Blue ghost">
-
     </div>
 
-    <p class="subtitle">
-      DODGE THE GHOSTS!
-    </p>
+    <p class="subtitle">DODGE THE GHOSTS!</p>
 
-    <button id="start-btn">
-      ▶ START GAME
-    </button>
+    <button id="start-btn">START GAME</button>
 
-    <p class="instructions">
-      USE ↑ AND ↓ TO MOVE
-    </p>
+    <p class="instructions">USE ↑ AND ↓ TO MOVE</p>
 
-    <p class="insert-coin">
-      INSERT COIN TO START
-    </p>
+    <p class="insert-coin">INSERT COIN TO START</p>
 
   </div>
 
 
-  <!-- GAME SCREEN -->
   <div id="game-screen" class="container">
 
     <div class="game-header">
@@ -63,9 +44,7 @@
         <strong id="score">0</strong>
       </div>
 
-      <div class="game-title">
-        PAC-MAN
-      </div>
+      <div class="game-title">PAC-MAN</div>
 
       <div class="score-box">
         <span>HIGH SCORE</span>
@@ -76,25 +55,13 @@
 
     <div id="game-box"></div>
 
-<!-- MOBILE CONTROLS -->
-<div class="mobile-controls">
+    <p class="game-instructions">
+      ↑ MOVE UP &nbsp;&nbsp; ↓ MOVE DOWN
+    </p>
 
-  <button id="up-btn" type="button">
-    ▲
-  </button>
-
-  <button id="down-btn" type="button">
-    ▼
-  </button>
-
-</div>
-
-<p class="game-instructions">
-  ↑ MOVE UP &nbsp;&nbsp; ↓ MOVE DOWN
-</p>
+  </div>
 
 
-  <!-- GAME OVER SCREEN -->
   <div id="game-over-screen" class="container">
 
     <h2>GAME OVER</h2>
@@ -106,29 +73,22 @@
     <p>THE GHOSTS GOT YOU!</p>
 
     <div class="final-score-box">
-
       <span>YOUR SCORE</span>
-
       <strong id="final-score">0</strong>
-
     </div>
 
     <p class="best-score-text">
       HIGH SCORE: <span id="final-best-score">0</span>
     </p>
 
-    <button id="restart-btn">
-      ↻ PLAY AGAIN
-    </button>
+    <button id="restart-btn">PLAY AGAIN</button>
 
   </div>
 
 
-  <!-- JAVASCRIPT -->
-  <script src="./js/main.js"></script>
   <script src="./js/player.js"></script>
   <script src="./js/cube.js"></script>
+  <script src="./js/main.js"></script>
 
 </body>
-
 </html>
