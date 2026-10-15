@@ -445,3 +445,86 @@ button:hover {
     font-size: 25px;
   }
 }
+
+/* =========================
+   MOBILE CONTROLS
+========================= */
+
+.mobile-controls {
+  display: none;
+  gap: 35px;
+  justify-content: center;
+  margin-top: 25px;
+}
+
+.mobile-controls button {
+  width: 85px;
+  height: 65px;
+
+  margin: 0;
+  padding: 0;
+
+  background: #000;
+  border: 3px solid #f4c542;
+  border-radius: 8px;
+
+  color: #f4c542;
+
+  font-size: 24px;
+
+  touch-action: manipulation;
+}
+
+.mobile-controls button:active {
+  background: #f4c542;
+  color: #000;
+}
+
+/* =========================
+   MOBILE RESPONSIVE
+========================= */
+
+@media (max-width: 480px) {
+
+  .mobile-controls {
+    display: flex;
+  }
+
+  .game-instructions {
+    display: none;
+  }
+
+  .game-header {
+    width: 100%;
+    max-width: 400px;
+    gap: 8px;
+  }
+
+  .score-box {
+    min-width: 0;
+  }
+
+  .score-box span {
+    font-size: 8px;
+  }
+
+  .score-box strong {
+    font-size: 16px;
+  }
+
+  .game-title {
+    font-size: 9px;
+  }
+
+  #game-box {
+    width: 400px;
+    height: 400px;
+
+    /* Mantiene las coordenadas internas del juego */
+    transform: scale(0.8);
+    transform-origin: center;
+
+    margin: -35px 0;
+  }
+
+}

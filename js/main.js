@@ -358,3 +358,108 @@ window.addEventListener("keydown", (event) => {
   }
 
 });
+
+/* =========================
+   MOBILE CONTROLS
+========================= */
+
+// Get mobile buttons from HTML
+const upBtnNode = document.querySelector("#up-btn");
+const downBtnNode = document.querySelector("#down-btn");
+
+// Variable to store movement interval
+let movementInterval = null;
+
+
+// Check if game is running
+function isGameRunning() {
+
+  return playerObj !== null &&
+    gameScreenNode.style.display === "flex";
+
+}
+
+
+// Start moving Pac-Man
+function startMoving(direction) {
+
+  if (!isGameRunning()) {
+    return;
+  }
+
+  stopMoving();
+
+  // Move immediately
+  if (direction === "up") {
+    playerObj.moveUp();
+  } else {
+    playerObj.moveDown();
+  }
+
+  // Keep moving while button is pressed
+  movementInterval = setInterval(() => {
+
+    if (!isGameRunning()) {
+      stopMoving();
+      return;
+    }
+
+    if (direction === "up") {
+      playerObj.moveUp();
+    } else {
+      playerObj.moveDown();
+    }
+
+  }, 100);
+
+}
+
+
+// Stop moving Pac-Man
+function stopMoving() {
+
+  clearInterval(movementInterval);
+
+  movementInterval = null;
+
+}
+
+
+// UP BUTTON
+upBtnNode.addEventListener("pointerdown", (event) => {
+
+  event.preventDefault();
+
+  upBtnNode.setPointerCapture(event.pointerId);
+
+  startMoving("up");
+
+});
+
+
+// DOWN BUTTON
+downBtnNode.addEventListener("pointerdown", (event) => {
+
+  event.preventDefault();
+
+  downBtnNode.setPointerCapture(event.pointerId);
+
+  startMoving("down");
+
+});
+
+
+// Stop movement when button is released
+[upBtnNode, downBtnNode].forEach((button) => {
+
+  button.addEventListener("pointerup", stopMoving);
+
+  button.addEventListener("pointercancel", stopMoving);
+
+  button.addEventListener("lostpointercapture", stopMoving);
+
+});
+
+
+// Stop movement if user leaves the browser
+window.addEventListener("blur", stopMoving);
